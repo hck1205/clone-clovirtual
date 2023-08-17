@@ -1,20 +1,27 @@
 import { useFetchStore } from '@/hook/useFetchStore';
-import { StorePageWrapper } from './Store.styled';
 import { Spinner } from '@/components';
+import Item from '@/components/Item';
+import Header from '@/components/Header';
+
+import { StorePageWrapper, GridWrapper } from './Store.styled';
 
 function Store() {
   const { storeData, isFetching } = useFetchStore();
 
   return (
     <StorePageWrapper>
+      <Header />
+
       {isFetching ? (
         <div className="spinner-wrapper">
           <Spinner />
         </div>
       ) : (
-        storeData.map(() => {
-          return <div>test</div>;
-        })
+        <GridWrapper>
+          {storeData.map((data) => {
+            return <Item key={data.id} itemData={data} />;
+          })}
+        </GridWrapper>
       )}
     </StorePageWrapper>
   );
