@@ -1,12 +1,13 @@
 import { logoURL } from '@/constpack';
 
-import SearchBar from './SeachBar/SearchBar';
-import FilterBar from './FilterBar/FilterBar';
+import SearchBar from '@/components/KeywordSeachBar';
+import FilterBar from '@/components/PricingFilterBar';
+import SortByDropdown from '@/components/SortByDropdown';
 
 import { AiFillBell } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';
 
-import { HeaderWrapper, TopHeader } from './Header.styled';
+import { HeaderWrapper, TopHeader, FilterContainer } from './Header.styled';
 
 function Header() {
   return (
@@ -19,8 +20,14 @@ function Header() {
         </div>
       </TopHeader>
 
-      <SearchBar />
-      <FilterBar />
+      <FilterContainer>
+        <SearchBar />
+        <FilterBar />
+        <div className="sort-container">
+          <p>Sort by:</p>
+          <SortByDropdown />
+        </div>
+      </FilterContainer>
     </HeaderWrapper>
   );
 }

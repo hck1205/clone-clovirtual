@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { MdRefresh } from 'react-icons/md';
 
-export const FilterBarWrapper = styled.div`
-  margin: 16px 40px;
+export const PricingFilterBarWrapper = styled.div`
+  margin-top: 16px;
   padding: 0 24px;
   background-color: #121215;
   border-radius: 3px;

@@ -25,3 +25,20 @@ export const TopHeader = styled.div`
     }
   }
 `;
+
+export const FilterContainer = styled.div`
+  margin: 0 40px;
+
+  .sort-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+
+    p {
+      font-size: 13px;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+`;

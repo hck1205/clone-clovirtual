@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FilterRadioBoxContainer = styled.div`
+export const PricingCheckBoxContainer = styled.div`
   display: flex;
   gap: 15px;
 

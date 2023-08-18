@@ -8,7 +8,7 @@ export const SearchBarWrapper = styled.div<{ isFocus: boolean }>`
   border-radius: 10px;
   padding: 24px;
   display: relative;
-  margin: 40px 40px 0 40px;
+  margin-top: 40px;
 
   ${({ isFocus }) =>
     isFocus &&
