@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ItemWrapper = styled.div`
+  height: 100%;
   color: #fff;
   display: flex;
   flex-direction: column;

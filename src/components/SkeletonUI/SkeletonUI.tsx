@@ -1,4 +1,4 @@
-import { DummyItem } from "./SkeletonUI.styled";
+import { DummyItem } from './SkeletonUI.styled';
 
 function SkeletonUI() {
   return (

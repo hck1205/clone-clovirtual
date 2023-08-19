@@ -1,23 +1,27 @@
-import { useCallback, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
+import { useCallback, useEffect, useState, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-import { useFetchStore } from "@/hook/useFetchStore";
+import { useFetchStore } from '@/hook/useFetchStore';
 
-import Item from "@/components/Item";
-import Header from "@/components/Header";
+import Item from '@/components/Item';
+import Header from '@/components/Header';
 
-import { useKeywordFilterValue } from "@/atoms/keywordFilterAtom";
-import { usePricingFilterValue } from "@/atoms/pricingFilterAtom";
-import { useSortingValue } from "@/atoms/sortingAtom";
-import { usePricingRangeFilterValue } from "@/atoms/pricingRangeFilterAtom";
+import { useKeywordFilterValue } from '@/atoms/keywordFilterAtom';
+import { usePricingFilterValue } from '@/atoms/pricingFilterAtom';
+import { useSortingValue } from '@/atoms/sortingAtom';
+import { usePricingRangeFilterValue } from '@/atoms/pricingRangeFilterAtom';
 
-import { TStoreData } from "@/API";
-import { hasKeyword } from "@/utils";
-import { ITEMS_PER_PAGE, PricingOption } from "@/constpack";
-import useUpdateQueryParams from "@/hook/useUpdateQueryParams";
-import SkeletonUI from "@/components/SkeletonUI/SkeletonUI";
+import { TStoreData } from '@/API';
+import { hasKeyword } from '@/utils';
+import { ITEMS_PER_PAGE, PricingOption } from '@/constpack';
+import useUpdateQueryParams from '@/hook/useUpdateQueryParams';
+import SkeletonUI from '@/components/SkeletonUI/SkeletonUI';
 
-import { StorePageWrapper, GridWrapper } from "./Store.styled";
+import {
+  StorePageWrapper,
+  GridWrapper,
+  ContentBottomEdge,
+} from './Store.styled';
 
 function Store() {
   const { initFilter } = useUpdateQueryParams();
@@ -32,15 +36,22 @@ function Store() {
   const [offset, setOffSet] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+  const availableDisplayItems = useMemo(
+    () => offset * ITEMS_PER_PAGE,
+    [offset]
+  );
+
   useEffect(() => initFilter(), []);
 
   useEffect(() => {
-    if (inView) {
+    const shouldLoadMore = storeData.length > availableDisplayItems;
+
+    if (inView && shouldLoadMore) {
       setIsLoadingMore(true);
       setTimeout(() => {
         setOffSet((prev) => prev + 1);
         setIsLoadingMore(false);
-      }, 2000);
+      }, 500);
     }
   }, [inView]);
 
@@ -58,7 +69,7 @@ function Store() {
       const hasPaidFilter = pricingFilter.includes(PricingOption.PAID);
       return hasPaidFilter ? price >= minValue && price <= maxValue : true;
     },
-    [minValue, maxValue]
+    [minValue, maxValue, pricingFilter]
   );
 
   const filterByKeyword = useCallback(
@@ -107,13 +118,21 @@ function Store() {
             .filter(filterByPricingOption)
             .filter(filterByPricingRange)
             .filter(filterByKeyword)
-            .filter((_data, index) => index < ITEMS_PER_PAGE * offset)
+            .filter((_data, index) => index < availableDisplayItems)
             .sort(sortByValue)
-            .map((data) => <Item key={data.id} itemData={data} />)
+            .map((data, i: number, dataArr) => {
+              const isLastElement = dataArr.length === i + 1;
+
+              return (
+                <div key={data.id}>
+                  <Item itemData={data} />
+                  {isLastElement && <ContentBottomEdge ref={bottomRef} />}
+                </div>
+              );
+            })
         )}
 
         {isLoadingMore && <SkeletonUI />}
-        <div ref={bottomRef} style={{ color: "white" }} />
       </GridWrapper>
     </StorePageWrapper>
   );

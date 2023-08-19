@@ -16,10 +16,12 @@
 - rc-slider: Optional Feature중 가격 필터 Silder를 개발하기 위해 설치했습니다.
 - react-icons: 각종 개발에 필요한 아이콘들을 위해 설치했습니다.
 - styled-component: css-in-js 용도로 사용됐습니다.
+- @testing-library/react: testing 용도로 사용됐습니다.
 
 ### 개발된 요구사항
 
 - Required
+
   - Contents Filter
   - Reset feature
   - Displaying Content list

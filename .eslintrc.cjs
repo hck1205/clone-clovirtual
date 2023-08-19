@@ -1,7 +1,7 @@
 /* eslint-env node */
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2020: true, module: 'node' },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -12,7 +12,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: true,
+    // project: './tsconfig.json',
     tsconfigRootDir: __dirname,
     noImplicitThis: false,
   },

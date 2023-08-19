@@ -1,16 +1,16 @@
-import { useState, ChangeEvent, useMemo, useEffect } from "react";
-import Slider from "rc-slider";
-import { useAtom } from "jotai";
-import { useLocation } from "react-router-dom";
+import { useState, ChangeEvent, useMemo, useEffect } from 'react';
+import Slider from 'rc-slider';
+import { useAtom } from 'jotai';
+import { useLocation } from 'react-router-dom';
 
-import { pricingRangeFilterAtom } from "@/atoms/pricingRangeFilterAtom";
-import WithTooltip from "@/components/DotTooltip/DotTooltip";
-import { PRICING_RANGES } from "@/constpack";
+import { pricingRangeFilterAtom } from '@/atoms/pricingRangeFilterAtom';
+import WithTooltip from '@/components/DotTooltip/DotTooltip';
+import { PRICING_RANGES } from '@/constpack';
 
-import { usePricingFilterValue } from "@/atoms/pricingFilterAtom";
+import { usePricingFilterValue } from '@/atoms/pricingFilterAtom';
 
-import { RangeContainer } from "./PricingRange.styled";
-import "rc-slider/assets/index.css";
+import { RangeContainer } from './PricingRange.styled';
+import 'rc-slider/assets/index.css';
 
 const [MIN_VALUE, MAX_VALUE] = PRICING_RANGES;
 
@@ -24,11 +24,12 @@ const PricingRange = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const range = searchParams.get("range");
+    const range = searchParams.get('range');
 
     if (range) {
-      const [min, max] = JSON.parse(range);
-      if (typeof min === "number" && typeof max === "number") {
+      const [min, max] = JSON.parse(range) as number[];
+
+      if (typeof min === 'number' && typeof max === 'number') {
         setMinValue(min);
         setMaxValue(max);
       }
@@ -41,8 +42,8 @@ const PricingRange = () => {
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const isMinValue = e.target.id === "min";
-    let newValue = e.target.value.replace(/\D/g, "");
+    const isMinValue = e.target.id === 'min';
+    let newValue = e.target.value.replace(/\D/g, '');
 
     if (Number(newValue) > MAX_VALUE) {
       newValue = newValue.slice(0, 3);
@@ -65,7 +66,6 @@ const PricingRange = () => {
         <input
           id="min"
           type="text"
-          defaultValue={minValue}
           value={`$ ${minValue}`}
           onChange={handleInputChange}
           placeholder="Enter a number"
@@ -92,7 +92,7 @@ const PricingRange = () => {
           const { dragging, value } = info;
           const { style } = dom.props;
 
-          const leftPos = (style?.left || "0") as string;
+          const leftPos = (style?.left || '0') as string;
 
           return (
             <WithTooltip
@@ -110,7 +110,6 @@ const PricingRange = () => {
         <input
           id="max"
           type="text"
-          defaultValue={maxValue}
           value={`$ ${maxValue}`}
           onChange={handleInputChange}
           placeholder="Enter a number"
