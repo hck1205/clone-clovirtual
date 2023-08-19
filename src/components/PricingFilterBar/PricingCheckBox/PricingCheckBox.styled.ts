@@ -7,7 +7,6 @@ export const PricingCheckBoxContainer = styled.div`
   label {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
   }
 
   input[type='checkbox'] {

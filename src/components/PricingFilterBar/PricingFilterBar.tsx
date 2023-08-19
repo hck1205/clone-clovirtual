@@ -1,5 +1,6 @@
 import { usePricingFilterWrite } from '@/atoms/pricingFilterAtom';
-import FilterRadioBox from './PricingCheckBox';
+import PricingCheckBox from './PricingCheckBox';
+import PricingRange from './PricingRange';
 
 import { PricingFilterBarWrapper, ResetIcon } from './PricingFilterBar.styled';
 
@@ -9,7 +10,8 @@ function PricingFilterBar() {
   return (
     <PricingFilterBarWrapper>
       <div className="left">
-        <FilterRadioBox />
+        <PricingCheckBox />
+        <PricingRange />
       </div>
 
       <div className="right" onClick={() => setPricingFilter([])}>
