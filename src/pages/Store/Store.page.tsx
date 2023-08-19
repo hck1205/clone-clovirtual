@@ -1,19 +1,20 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useCallback, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
-import { useFetchStore } from '@/hook/useFetchStore';
-import { Spinner } from '@/components';
-import Item from '@/components/Item';
-import Header from '@/components/Header';
+import { useFetchStore } from "@/hook/useFetchStore";
+import { Spinner } from "@/components";
+import Item from "@/components/Item";
+import Header from "@/components/Header";
 
-import { useKeywordFilterValue } from '@/atoms/keywordFilterAtom';
-import { usePricingFilterValue } from '@/atoms/pricingFilterAtom';
+import { useKeywordFilterValue } from "@/atoms/keywordFilterAtom";
+import { usePricingFilterValue } from "@/atoms/pricingFilterAtom";
 
-import { StorePageWrapper, GridWrapper } from './Store.styled';
-import { TStoreData } from '@/API';
-import { hasKeyword } from '@/utils';
-import { ITEMS_PER_PAGE } from '@/constpack';
-import { useSortingValue } from '@/atoms/sortingAtom';
+import { StorePageWrapper, GridWrapper } from "./Store.styled";
+import { TStoreData } from "@/API";
+import { hasKeyword } from "@/utils";
+import { ITEMS_PER_PAGE, PricingOption } from "@/constpack";
+import { useSortingValue } from "@/atoms/sortingAtom";
+import { usePricingRangeFilterValue } from "@/atoms/pricingRangeFilterAtom";
 
 function Store() {
   const { storeData, isFetching } = useFetchStore();
@@ -22,6 +23,7 @@ function Store() {
   const keywordFilter = useKeywordFilterValue();
   const pricingFilter = usePricingFilterValue();
   const sortingValue = useSortingValue();
+  const [minValue, maxValue] = usePricingRangeFilterValue();
 
   const [offset, setOffSet] = useState(1);
 
@@ -38,6 +40,14 @@ function Store() {
         : true;
     },
     [pricingFilter]
+  );
+
+  const filterByPricingRange = useCallback(
+    ({ price }: TStoreData) => {
+      const hasPaidFilter = pricingFilter.includes(PricingOption.PAID);
+      return hasPaidFilter ? price >= minValue && price <= maxValue : true;
+    },
+    [minValue, maxValue]
   );
 
   const filterByKeyword = useCallback(
@@ -86,6 +96,7 @@ function Store() {
         <GridWrapper>
           {storeData
             .filter(filterByPricingOption)
+            .filter(filterByPricingRange)
             .filter(filterByKeyword)
             .filter((_data, index) => index < ITEMS_PER_PAGE * offset)
             .sort(sortByValue)
@@ -93,7 +104,7 @@ function Store() {
               <Item key={data.id} itemData={data} />
             ))}
 
-          <div ref={bottomRef} style={{ color: 'white' }} />
+          <div ref={bottomRef} style={{ color: "white" }} />
         </GridWrapper>
       )}
     </StorePageWrapper>

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import type { TSpinner } from './Spinner';
+import type { TSpinner } from "./Spinner";
 
 export const SpinnerComponent = styled.span<TSpinner>`
   width: ${({ size }) => size}px;
