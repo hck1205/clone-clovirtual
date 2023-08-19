@@ -1,5 +1,5 @@
-import { BREAK_POINT } from '@/constpack/designs';
-import styled from 'styled-components';
+import { BREAK_POINT } from "@/constpack/designs";
+import styled from "styled-components";
 
 export const StorePageWrapper = styled.div`
   background-color: #1a1a1f;

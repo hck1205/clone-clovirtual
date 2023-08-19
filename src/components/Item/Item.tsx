@@ -1,8 +1,8 @@
-import { memo, useMemo } from 'react';
-import { TStoreData } from '@/API';
+import { memo, useMemo } from "react";
+import { TStoreData } from "@/API";
 
-import { ItemWrapper, ImageWrapper, InfoWrapper } from './Item.styled';
-import { PRICING_TEXT } from '@/constpack';
+import { ItemWrapper, ImageWrapper, InfoWrapper } from "./Item.styled";
+import { PRICING_TEXT } from "@/constpack";
 
 type TItem = {
   itemData: TStoreData;

@@ -2,20 +2,22 @@ import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { useFetchStore } from "@/hook/useFetchStore";
-import { Spinner } from "@/components";
+
 import Item from "@/components/Item";
 import Header from "@/components/Header";
 
 import { useKeywordFilterValue } from "@/atoms/keywordFilterAtom";
 import { usePricingFilterValue } from "@/atoms/pricingFilterAtom";
+import { useSortingValue } from "@/atoms/sortingAtom";
+import { usePricingRangeFilterValue } from "@/atoms/pricingRangeFilterAtom";
 
-import { StorePageWrapper, GridWrapper } from "./Store.styled";
 import { TStoreData } from "@/API";
 import { hasKeyword } from "@/utils";
 import { ITEMS_PER_PAGE, PricingOption } from "@/constpack";
-import { useSortingValue } from "@/atoms/sortingAtom";
-import { usePricingRangeFilterValue } from "@/atoms/pricingRangeFilterAtom";
 import useUpdateQueryParams from "@/hook/useUpdateQueryParams";
+import SkeletonUI from "@/components/SkeletonUI/SkeletonUI";
+
+import { StorePageWrapper, GridWrapper } from "./Store.styled";
 
 function Store() {
   const { initFilter } = useUpdateQueryParams();
@@ -28,12 +30,17 @@ function Store() {
   const [minValue, maxValue] = usePricingRangeFilterValue();
 
   const [offset, setOffSet] = useState(1);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => initFilter(), []);
 
   useEffect(() => {
     if (inView) {
-      setOffSet((prev) => prev + 1);
+      setIsLoadingMore(true);
+      setTimeout(() => {
+        setOffSet((prev) => prev + 1);
+        setIsLoadingMore(false);
+      }, 2000);
     }
   }, [inView]);
 
@@ -92,25 +99,22 @@ function Store() {
     <StorePageWrapper>
       <Header />
 
-      {isFetching ? (
-        <div className="spinner-wrapper">
-          <Spinner />
-        </div>
-      ) : (
-        <GridWrapper>
-          {storeData
+      <GridWrapper>
+        {isFetching ? (
+          <SkeletonUI />
+        ) : (
+          storeData
             .filter(filterByPricingOption)
             .filter(filterByPricingRange)
             .filter(filterByKeyword)
             .filter((_data, index) => index < ITEMS_PER_PAGE * offset)
             .sort(sortByValue)
-            .map((data) => (
-              <Item key={data.id} itemData={data} />
-            ))}
+            .map((data) => <Item key={data.id} itemData={data} />)
+        )}
 
-          <div ref={bottomRef} style={{ color: "white" }} />
-        </GridWrapper>
-      )}
+        {isLoadingMore && <SkeletonUI />}
+        <div ref={bottomRef} style={{ color: "white" }} />
+      </GridWrapper>
     </StorePageWrapper>
   );
 }
