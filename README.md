@@ -22,17 +22,17 @@
 
 - Required
 
-  - Contents Filter
-  - Reset feature
-  - Displaying Content list
-  - Keyword search
-  - Save filter condition after refresh
+  - Contents Filter (o)
+  - Reset feature (o)
+  - Displaying Content list (o)
+  - Keyword search (o)
+  - Save filter condition after refresh (o)
 
   <br />
 
 - Optional
-  - Typescript 적용
-  - Sorting 구현
-  - Pricing slider 구현
-  - Skeleton UI 구현
-  - Test code 작성
+  - Typescript 적용 (o)
+  - Sorting 구현 (o)
+  - Pricing slider 구현 (o)
+  - Skeleton UI 구현 (o)
+  - Test code 작성 (x)
