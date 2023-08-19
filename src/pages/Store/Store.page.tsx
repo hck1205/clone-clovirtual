@@ -15,8 +15,10 @@ import { hasKeyword } from "@/utils";
 import { ITEMS_PER_PAGE, PricingOption } from "@/constpack";
 import { useSortingValue } from "@/atoms/sortingAtom";
 import { usePricingRangeFilterValue } from "@/atoms/pricingRangeFilterAtom";
+import useUpdateQueryParams from "@/hook/useUpdateQueryParams";
 
 function Store() {
+  const { initFilter } = useUpdateQueryParams();
   const { storeData, isFetching } = useFetchStore();
   const [bottomRef, inView] = useInView();
 
@@ -26,6 +28,8 @@ function Store() {
   const [minValue, maxValue] = usePricingRangeFilterValue();
 
   const [offset, setOffSet] = useState(1);
+
+  useEffect(() => initFilter(), []);
 
   useEffect(() => {
     if (inView) {

@@ -13,8 +13,8 @@ export const RangeContainer = styled.div<{ disabled: boolean }>`
       opacity: 1;
     }
 
-    .rc-slider-disabled {
-      background-color: none;
+    &.rc-slider-disabled {
+      background-color: unset;
     }
   }
 
